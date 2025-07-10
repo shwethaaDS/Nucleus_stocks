@@ -1,0 +1,44 @@
+<%-include ('partials/header_admin'); %>
+        
+        <% if(table.length !=0) { %>
+        <div class="main col-11 col-sm-11 col-lg-11 mx-auto schedule">    
+        <h4 class="my-5">Unblock Lab</h4>
+        <div class="table-responsive mx-auto mt-5">
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">S.No</th>
+                        <th scope="col">Lab Name</th>
+                        <th scope="col">Day</th>
+                        <th scope="col">From Period</th>
+                        <th scope="col">To Period</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i=0; i<table.length; i++) { %>
+                    <form action="/unblock-lab" method="post" onsubmit="return confirm('Do you really want to unblock it?');">
+                        <tr>
+                            <td><%= i+1 %></td>
+                            <td><input name="lab" value="<%= table[i].lab %>" type="text" hidden /><%= table[i].lab %></td>
+                            <td><input name="day" value="<%= table[i]._day %>" type="text" hidden /><%= table[i]._day %></td>
+                            <td><input name="from" value="<%= table[i].fromperiod %>" type="text" hidden /><%= table[i].fromperiod %></td>
+                            <td><input name="to" value="<%= table[i].toperiod %>" type="text" hidden /><%= table[i].toperiod %></td>
+                            <td>
+                                <input class="btn btn-danger rounded-pill m-0" type="submit" name="submit" value="Unblock">
+                            </td>
+                        </tr>
+                    </form>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <% } else { %>
+            <div class="text-center">
+                <img src="/images/nothing.png" class="nothingFull" alt="nothing">
+                <div><p class="fs-5 text-purple fw-bold">No labs to unblock</p></div>
+            </div>
+        <% } %>
+    </div>
+
+<%-include ('partials/footer'); %>

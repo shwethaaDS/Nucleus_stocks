@@ -1,0 +1,159 @@
+<%- include('partials/header_lab'); %> 
+    
+<div class="schedule rounded p-3 mx-lg-1">
+    
+    <h4 class="m-5">Devices List</h4>
+    <form action="/filter" method="post" class="mx-5">
+
+        <div class="mb-3 row">
+            <label for="reportBy" class="col-sm-3 col-form-label">Report By</label>
+            <div class="col-sm-5">
+                <select class="form-select" id="reportBy" name="reportBy" placeholder="reportBy" onchange="">
+                    <option value="All" <%= filter === "All" ? "selected" : "" %> >All</option>
+                    <option value="invoiceno" <%= filter === "invoiceno" ? "selected" : "" %> >INVOICE NO.</option>
+                    <option value="dump" <%= filter === "dump" ? "selected" : "" %> >DUMP</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="status" class="col-sm-3 col-form-label">Status</label>
+            <div class="col-sm-5">
+                <select class="form-select" id="status" name="status" placeholder="status" onchange="">
+                    <option value="All" <%= status === "All" ? "selected" : "" %> >All</option>
+                    <option value="working" <%= status === "working" ? "selected" : "" %> >Working</option>
+                    <option value="notWorking" <%= status === "notWorking" ? "selected" : "" %> >Not Working</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="lab" class="col-sm-3 col-form-label">Location</label>
+            <div class="col-sm-5">
+              <select class="form-select" id="lab" name="lab" placeholder="lab" onchange="">
+                <option value="All" <%= lab === "All" ? "selected" : "" %> >All</option>
+                <option value="CSL1" <%= lab === "CSL1" ? "selected" : "" %> >CSL1</option>
+                <option value="CSL2" <%= lab === "CSL2" ? "selected" : "" %> >CSL2</option>
+                <option value="CSL3" <%= lab === "CSL3" ? "selected" : "" %> >CSL3</option>
+                <option value="NSL" <%= lab === "NSL" ? "selected" : "" %> >NSL</option>
+                <option value="DSL" <%= lab === "DSL" ? "selected" : "" %> >DSL</option>
+                <option value="IIL" <%= lab === "IIL" ? "selected" : "" %> >IIL</option>
+                <option value="OCL" <%= lab === "OCL" ? "selected" : "" %> >OCL</option>
+                <option value="SKAVA" <%= lab === "SKAVA" ? "selected" : "" %> >SKAVA</option>
+                <option value="SCL" <%= lab === "SCL" ? "selected" : "" %> >SCL</option>
+                <option value="CL" <%= lab === "CL" ? "selected" : "" %> >CL</option>
+                <option value="STORE" <%= lab === "STORE" ? "selected" : "" %> >STORE</option>
+              </select>
+            </div>
+          </div>
+
+        <div class="text-center mb-5">
+            <input class="btn btn-block request" type="submit" name="submit" value="View" id="submitBtn" onclick="formCheck()">
+        </div>
+    </form>
+            
+    <% if (stock.length !== 0) { %>
+        <div class="text-left mb-3">
+          <a class="btn btn-block request" href="/download">Download</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <% if (filter === 'invoiceno') { %>
+                  <th scope="col">SerialNo.</th>
+                  <th scope="col">Device Type</th>
+                  <th scope="col">Invoice no.</th>
+                  <th scope="col">Invoice date</th>
+                <% } else if (filter === 'dump') { %>
+                  <th scope="col">SerialNo.</th>
+                  <th scope="col">Device Type</th>
+                  <th scope="col">Disposal Date</th>
+                <% } else if (status === 'all') { %>
+                  <th scope="col">SerialNo.</th>
+                  <th scope="col">Device Type</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Status</th>
+                <% } else if (status === 'working') { %>
+                  <th scope="col">SerialNo.</th>
+                  <th scope="col">Device Type</th>
+                  <th scope="col">Location</th>
+                <% } else if (status === 'notWorking') { %>
+                  <th scope="col">SerialNo.</th>
+                  <th scope="col">Device Type</th>
+                  <th scope="col">Location</th>
+                <% } else if (filter === 'All' && status === 'All' && lab === 'All') { %>
+                  <th scope="col">Serial no.</th>
+                  <th scope="col">Device Name</th>
+                  <th scope="col">Mac</th>
+                  <th scope="col">RAM</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Specification</th>
+                <% } else if (lab !== '') { %>
+                  <th scope="col">System no.</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Mouse Sno</th>
+                  <th scope="col">Monitor Sno</th>
+                  <th scope="col">CPU Sno</th>
+                  <th scope="col">Keyboard Sno</th>
+
+                <% } %>
+              </tr>
+            </thead>
+            <tbody>
+              <% stock.forEach(function(device) { %>
+                <% if (filter === 'dump') { %>
+                  <tr>
+                    <td><%= device.serialno %></td>
+                    <td><%= device.devicetype %></td>
+                    <td><%= device.disposaldate %></td>
+                  </tr>
+                <% } else if (filter === 'invoiceno') { %>
+                  <tr>
+                    <td><%= device.serialno %></td>
+                    <td><%= device.devicetype %></td>
+                    <td><%= device.invoiceno %></td>
+                    <td><%= device.invoicedate %></td>
+                  </tr>
+                <% } else if (status === 'working') { %>
+                  <tr>
+                    <td><%= device.serialno %></td>
+                    <td><%= device.devicetype %></td>
+                    <td><%= device.location %></td>
+                  </tr>
+                <% } else if (status === 'notWorking') { %>
+                  <tr>
+                    <td><%= device.serialno %></td>
+                    <td><%= device.devicetype %></td>
+                    <td><%= device.location %></td>
+                  </tr>
+                <% } else if (filter === 'All' && status === 'All' && lab === 'All') { %>
+                  <tr>
+                  <td><%= device.serialno %></td>
+                  <td><%= device.devicetype %></td>
+                  <td><%= device.mac %></td>
+                  <td><%= device.ram %></td>
+                  <td><%= device.location %></td>
+                  <td><%= device.status %></td>
+                  <td><%= device.specification %></td>
+                </tr>
+                <% } else if (lab !== '') { %>
+                  <tr>
+                    <td><%= device.systemno %></td>
+                    <td><%= device.location %></td>
+                    <td><%= device.mousesno %></td>
+                    <td><%= device.monitorsno %></td>
+                    <td><%= device.cpusno %></td>
+                    <td><%= device.keyboardsno %></td>
+                  </tr>
+                  <% } %>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="text-center mt-5">
+          <h5>No devices found.</h5>
+        </div>
+      <% } %>
+      

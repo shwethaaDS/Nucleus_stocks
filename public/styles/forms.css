@@ -1,0 +1,53 @@
+body{
+    background-color: #ECECF9;
+}
+
+.main{
+    background-color: white;
+    padding: 10px 50px 40px 50px;
+    box-shadow: 2px 5px 20px rgba(0,0,0,0.1);
+}
+
+.request{
+    padding: 10px 50px;
+    margin-top: 20px;
+}
+
+.request, .update, .update:focus{
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: #5853BC;
+    border: none;
+    color: white;
+    
+}
+
+.request:hover,
+.update:hover{
+    color: white;
+    background-color: #3d3a83;
+}
+
+.update{
+    font-size: 0.85rem;
+    padding: 5px;
+    margin: 0 10px;
+}
+
+.reject,
+.reject:hover,
+.reject:focus,
+.reject:active{
+    border: none;
+}
+
+.filter:focus{
+    border: 1px solid lightgrey;
+    outline: none;
+    box-shadow: none;
+}
+
+.alert-dismissible{
+    top: 20px;
+    width: max-content;
+}

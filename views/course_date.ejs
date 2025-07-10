@@ -1,0 +1,92 @@
+<%-include('partials/header_admin'); %>
+
+    <div class="main col-10 col-sm-8 col-lg-7 mx-auto rounded">
+        <% if(locals.success) { %>
+            <div class="alert alert-success alert-dismissible fade show position-absolute top-10 start-50 translate-middle" role="alert" id="alert">
+                <%= success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+        <h4 class="my-5">Course Date</h4>
+        <div class="course-date">
+            <form action="/add-date" method="post">
+
+                <div class="mb-3 row">
+                    <label for="year" class="col-sm-3 col-form-label">Academic Year</label>
+                    <div class="col-sm-9">
+                        <select class="form-select" aria-label="Default select example" id="year" name="year" required>
+                            <option></option>
+                            <option><%= new Date().getFullYear() -1 %> - <%= new Date().getFullYear() %></option>
+                            <option><%= new Date().getFullYear() %> - <%= new Date().getFullYear() + 1 %></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="class" class="col-sm-3 col-form-label">Class</label>
+                    <div class="col-sm-9">
+                        <select class="form-select" aria-label="Default select example" id="class" name="class"
+                            required>
+                            <option value=""></option>
+                            <option value="senior">Senior</option>
+                            <option value="junior">Junior</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="semester" class="col-sm-3 col-form-label">Semester</label>
+                    <div class="col-sm-9">
+                        <select class="form-select" aria-label="Default select example" id="semester" name="semester"
+                            required>
+                            <option value=""></option>
+                            <option value="odd">Odd</option>
+                            <option value="even">Even</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mb-3 row">
+                    <label for="start_date" class="col-sm-3 col-form-label">Start Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" id="start_date" name="start_date" required onchange="check()">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="end_date" class="col-sm-3 col-form-label">End Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" id="end_date" name="end_date" required onchange="check()">
+                        <div id="invalid" class="my-2 p-2 fs-6 alert alert-danger d-none"><span>Invalid End Date</span></div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <input class="btn btn-block request" type="submit" name="Submit" value="Submit" id="submitBtn">
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+<script>
+
+    function check() {
+        const start = document.getElementById('start_date').value, end = document.getElementById('end_date').value,
+            submitBtn = document.getElementById('submitBtn'), invalid = document.getElementById('invalid');
+
+        if(start && end && start > end) {
+            invalid.classList.remove('d-none');
+            submitBtn.disabled = true;
+        }
+        else {
+            invalid.classList.add('d-none');
+            submitBtn.disabled = false;
+        }
+    }
+    
+    $("#alert").delay(2500).fadeOut(500);
+
+</script>
+
+<%-include ('partials/footer'); %>

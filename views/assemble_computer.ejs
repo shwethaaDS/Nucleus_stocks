@@ -1,0 +1,107 @@
+<% if(role === "lab_assistant") { %>
+<%-include('partials/header_lab') %>
+<% } else { %>
+<%-include('partials/header')%>
+<% } %>
+
+<% var rowCount = 1; %>
+<form action="/assemble_computer" method="post" class="mx-auto">
+
+<table class="table text-center table-striped" id="myTable">
+<div class="table-responsive mt-5"  >
+    <tr style="color: #5853BC;">
+        <th>System no.</th>
+        <th>Location</th>
+        <th>Monitor SNo</th>
+        <th>CPU SNo</th>
+        <th>Mouse SNo</th>
+        <th>Keyboard SNo</th>
+    </tr>
+</div>
+
+<tr>
+
+    <!-- <td><input type="text" name="System no."></td> -->
+
+
+    <td><label for="systemno" class="col-sm-3 col-form-label"></label>
+    <input type="text" class="form-control" id="systemno" name="systemno"  ></td>
+
+
+    <td><label for="location" class="col-sm-3 col-form-label"></label>
+        <div class="col">
+            <select class="form-select" aria-label="Default select example" id="location" name="location" 
+                onchange="">
+                <option value=""></option>
+                <option value="CSL1">CSL1</option>
+                <option value="CSL2">CSL2</option>
+                <option value="CSL3">CSL3</option>
+                <option value="DSL">DSL</option>
+                <option value="NSL">NSL</option>
+                <option value="IIL">IIL</option>
+                <option value="OCL">OCL</option>
+                <option value="SKAVA">SKAVA</option>
+                <option value="SCL">SCL</option>
+                <option value="CL">CL</option>
+            </select>
+        </div></td>
+        <td><label for="monitorsno" class="col-sm-3 col-form-label"></label>
+        <input type="text" class="form-control" id="monitorsno" name="monitorsno"  ></td> 
+        <td><label for="cpusno" class="col-sm-3 col-form-label"></label>
+        <input type="text" class="form-control" id="cpusno" name="cpusno"  ></td> 
+        <td><label for="keyboardsno" class="col-sm-3 col-form-label"></label>
+        <input type="text" class="form-control" id="keyboardsno" name="keyboardsno"  ></td>
+        <td><label for="mousesno" class="col-sm-3 col-form-label"></label>
+        <input type="text" class="form-control" id="mousesno" name="mousesno"  ></td>
+</tr></div>
+<% for(var i=1; i<=rowCount; i++){ %>
+<% } %>
+</table>
+<input class="btn btn-block request" type="submit" name="Submit" value="Add Row" id="submitBtn" onclick="addRow()">
+
+<div class="text-center">
+<input class="btn btn-block request" type="submit" name="Submit" value="Submit" id="submitBtn" onclick="formCheck()">
+</div></form>
+
+<script>
+    function addRow() {
+        var table = document.getElementById("myTable");
+        var rowCount = table.rows.length;
+        var row = table.insertRow(rowCount);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+    
+        cell1.innerHTML = "<input type='text' name='System no."+rowCount+"' class='form-control'>";
+        cell2.innerHTML = "<select class='form-select' id='Location" + rowCount + "' name='Location" + rowCount + "'>";
+        cell2.innerHTML += "<option value=''></option>";
+        cell2.innerHTML += "</selectlab>";    
+        cell3.innerHTML = "<input type='text' name='Monitor SNo"+rowCount+"' class='form-control'>";
+        cell4.innerHTML = "<input type='text' name='CPU SNo"+rowCount+"' class='form-control'>";
+        cell5.innerHTML =  "<input type='text' name='Keyboard SNo"+rowCount+"' class='form-control'>";
+        cell6.innerHTML = "<select class='form-select' id='MouseSNo" + rowCount + "' name='MouseSNo" + rowCount + "'>";
+    
+        var select = cell2.querySelector("#Location" + rowCount);
+        select.addEventListener("change", function() {
+            var options = "<option value=''></option>";
+            options += "<option value='1'>CSL1</option>";
+            options += "<option value='2'>CSL2</option>";
+            options += "<option value='3'>CSL3</option>";
+            options += "<option value='4'>DSL</option>";
+            options += "<option value='5'>NSL</option>";
+            options += "<option value='6'>IIL</option>";
+            options += "<option value='7'>OCL</option>";
+            options += "<option value='8'>SKAVA</option>";
+            options += "<option value='9'>SCL</option>";
+            options += "<option value='10'>CL</option>";
+            select.innerHTML = options;
+        });
+    
+
+    }
+    </script>
+    
+<%-include('partials/footer')%>

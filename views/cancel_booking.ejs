@@ -1,0 +1,55 @@
+<% if(role === "lab_assistant") { %>
+<%-include('partials/header_lab') %>
+<% } else if(role === "student") { %>
+<%-include('partials/header_student')%>
+<% } else if(role === "teacher") { %>
+<%-include('partials/header')%>
+<% } else { %>
+<%-include('partials/header_admin') %>
+<% } %>
+
+        <% if(table.length !=0) { %>
+        <div class="schedule main col-11 col-sm-11 col-lg-11 col-xl-11 mx-auto">
+        <h4 class="my-5">Cancel Booking</h4>
+        <div class="table-responsive mx-auto mt-5">
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">S.No</th>
+                        <th scope="col">Class</th>
+                        <th scope="col">Lab Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">From Period</th>
+                        <th scope="col">To Period</th>
+                        <th scope="col">Purpose</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i=0; i<table.length; i++) { %>
+                    <form action="/cancel-booking" method="post" onsubmit="return confirm('Do you really want to cancel it?');">
+                        <tr>
+                            <td><%= i+1 %></td>
+                            <td><input name="year" value="<%= table[i]._year %>" type="text" hidden /><input name="programme" value="<%= table[i].programme %>" type="text" hidden /><%= table[i]._year+" yr "+table[i].programme %></td>
+                            <td><input name="lab" value="<%= table[i].lab %>" type="text" hidden /><%= table[i].lab %></td>
+                            <% table[i].bookingDate = table[i].bookingDate.toISOString().slice(0, 8)+table[i].bookingDate.getDate() %>
+                            <td><input name="date" value="<%= table[i].bookingDate %>" type="text" hidden /><%= table[i].bookingDate %></td>
+                            <td><input name="from" value="<%= table[i].fromperiod %>" type="text" hidden /><%= table[i].fromperiod %></td>
+                            <td><input name="to" value="<%= table[i].toperiod %>" type="text" hidden /><%= table[i].toperiod %></td>
+                            <td><input name="purpose" value="<%= table[i].purpose %>" type="text" hidden /><%= table[i].purpose %></td>
+                            <td>
+                                <input class="btn btn-danger rounded-pill m-0" type="submit" name="submit" value="Cancel">
+                            </td>
+                        </tr>
+                    </form>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <% } else { %>
+            <div class="text-center">
+            <img src="/images/nothing.png" class="nothingFull" alt="nothing">
+            <div><p class="fs-5 text-purple fw-bold">No bookings to cancel</p></div>
+        <% } %>
+    </div>
+    <%-include ('partials/footer')%>

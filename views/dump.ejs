@@ -1,0 +1,120 @@
+<% if (role === "lab_assistant") { %>
+  <%- include('partials/header_lab') %>
+<% } else { %>
+  <%- include('partials/header') %>
+<% } %>
+<% if(locals.alert) { %>
+  <div class="alert alert-danger alert-dismissible fade show position-absolute start-50 translate-middle" role="alert" id="alert">
+      <%= alert %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+<% if(locals.success) { %>
+  <div class="alert alert-success alert-dismissible fade show position-absolute start-50 translate-middle" role="alert" id="alert">
+      <%= success %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>    
+
+<form action="/dump" method="post" class="mx-auto" onsubmit="return formCheck()">
+  <div class="mb-3 row">
+    <label for="fdate" class="col-sm-3 col-form-label">Disposal Date</label>
+    <div class="col">
+      <input type="date" class="form-control" id="fdate" name="fdate" onchange="check(); dateSelect();">
+    </div>
+  </div>
+  <div class="table-responsive mt-5">
+    <table class="table text-center table-striped" id="myTable">
+      <thead>
+        <tr style="color: black;">
+          <th>Serial number</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <tr>
+          <td>
+            <input type="text" name="serialno" class="form-control">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-left">
+    <input class="btn btn-block request" type="button" value="Add Row" id="addRowBtn" onclick="addRow()">
+  </div>
+  <div class="text-center">
+    <input class="btn btn-block request" type="submit" name="Submit" value="Submit" id="submitBtn"onsubmit="return formCheck()">
+  </div>
+</form>
+
+<script>
+  function check() {
+    var serialno = document.getElementById("serialno").value;
+    var disposaldate = document.getElementById("fdate").value;
+  
+    if (serialno && disposaldate) {
+      submitBtn.disabled = true;
+    } else {
+      submitBtn.disabled = false;
+    }
+  }
+  
+  function dateSelect() {
+    var fdateInput = document.getElementById("fdate");
+  
+    if (fdateInput && fdateInput.value) {
+      var selectedDate = fdateInput.value;
+    }
+  }
+  
+  function addRow() {
+    var tableBody = document.getElementById("tableBody");
+    var rowCount = tableBody.rows.length;
+    var row = tableBody.insertRow(rowCount);
+    var cell1 = row.insertCell(0);
+  
+    cell1.innerHTML = "<input type='text' name='serialno" + rowCount + "' class='form-control'>";
+  }
+  
+  
+  var errors = []; // Array to store errors
+
+  function formCheck() {
+    var invoiceDate = document.getElementById("fdate").value;
+    var serialnoInputs = document.getElementsByName("serialno");
+
+    if (invoiceDate.trim() === "") {
+      alert("Please select the disposal date.");
+      return false;
+    }
+
+    errors = []; // Reset errors
+
+    // Validate serial numbers for duplicates
+    for (var i = 0; i < serialnoInputs.length; i++) {
+      if (serialnoInputs[i].value.trim() !== "") {
+        for (var j = i + 1; j < serialnoInputs.length; j++) {
+          if (
+            serialnoInputs[j].value.trim() !== "" &&
+            serialnoInputs[i].value === serialnoInputs[j].value
+          ) {
+            errors.push(`Duplicate serial number: ${serialnoInputs[i].value}`);
+          }
+        }
+      }
+    }
+
+    if (errors.length > 0) {
+      var errorMessage = "Errors:\n" + errors.join("\n");
+      alert(errorMessage);
+      return false;
+    }
+
+    return true;
+  }
+</script>
+
+<%- include('partials/footer') %>
+
+

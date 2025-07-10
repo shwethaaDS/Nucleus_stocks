@@ -1,0 +1,56 @@
+<% if (role === "lab_assistant") { %>
+    <%- include('partials/header_lab') %>
+  <% } else { %>
+    <%- include('partials/header') %>
+  <% } %>
+  
+  <div class="main rounded col col-md-9 col-lg-10 mx-auto schedule">
+    <h4 class="my-4">Update Status</h4>
+    <div class="status col-md-10 col-lg-7 mx-auto">
+      <form action="/status" method="post" class="mx-auto" onsubmit="return validateForm()">
+        <div class="mb-3 row">
+          <label for="serialno" class="col-sm-3 col-form-label">Serial Number</label>
+          <div class="col">
+            <input type="text" class="form-control" id="serialno" name="serialno">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="mb-3 row">
+            <label for="deviceStatus" class="col-sm-3 col-form-label">Status</label>
+            <div class="col">
+              <select class="form-select" aria-label="Default select example" id="deviceStatus" name="deviceStatus">
+                <option value="Select device type"></option>
+                <option value="Working">Working</option>
+                <option value="Notworking">Not Working</option>
+              </select>
+            </div>
+          </div>
+          <div class="text-center">
+            <input class="btn btn-block request" type="submit" name="Submit" value="Submit" id="submitBtn">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <%- include('partials/footer') %>
+  
+  <script>
+    function validateForm() {
+      var serialno = document.getElementById("serialno").value;
+      var deviceStatus = document.getElementById("deviceStatus").value;
+  
+      if (serialno === "") {
+        alert("Please enter the serial number");
+        return false; // Prevent form submission
+      }
+  
+      if (deviceStatus === "Select device type") {
+        alert("Please select a valid device status");
+        return false; // Prevent form submission
+      }
+  
+      return true; // Allow form submission
+    }
+  </script>
+  

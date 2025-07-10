@@ -1,0 +1,56 @@
+<% if(role === "lab_assistant") { %>
+<%-include('partials/header_lab') %>
+<% } else if(role === "student") { %>
+<%-include('partials/header_student')%>
+<% } else if(role === "teacher") { %>
+<%-include('partials/header')%>
+<% } else { %>
+<%-include('partials/header_admin') %>
+<% } %>
+<% if(bookings.length !=0) { %>
+    
+    <div class="schedule rounded p-3 mx-lg-5">
+        <div class="m-3 row">
+            <div class="mb-3 col-sm-6">
+                <h4 class="text-center float-sm-start">Booking History</h4>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Class</th>
+                        <th scope="col">Lab name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">From Period</th>
+                        <th scope="col">To Period</th>
+                        <th scope="col" style="width: 35%" class="text-start">Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(i=0; i<bookings.length; i++){ %>
+    
+                    <tr <% if(bookings[i].bookingDate < new Date()) { %> class="text-secondary bg-light" <% } %> >
+                        <td><%=i+1 %></td>
+                        <td><%=bookings[i]._year + " yr " + bookings[i].programme %></td>
+                        <td><%=bookings[i].lab %></td>
+                        <td><%=bookings[i].bookingDate.toLocaleDateString("en-IN") %></td>
+                        <td><%=bookings[i].fromperiod %></td>
+                        <td><%=bookings[i].toperiod %></td>
+                        <td class="text-start"><%=bookings[i].purpose %></td>
+                    </tr>
+                    <% } %>
+
+                </tbody>
+            </table>
+        </div>
+        <% } else { %>
+            <div class="text-center">
+            <img src="/images/nothing.png" class="nothingFull" alt="nothing">
+            <div><p class="fs-5 text-purple fw-bold">No bookings</p></div>
+        <% } %>
+    </div>
+
+<%-include ('partials/footer')%>

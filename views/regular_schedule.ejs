@@ -1,0 +1,173 @@
+<% if(role === "lab_assistant") { %>
+<%-include('partials/header_lab') %>
+<% } else if(role === "admin") { %>
+<%-include('partials/header_admin')%>
+<% } else { %>
+<%-include('partials/header')%>
+<% } %>
+
+<% if(table.length != 0) { %>
+<div class="schedule rounded p-3 mx-lg-6">
+    <div class="m-3 row">
+        <div class="mb-3 col-sm-6">
+            <h4 class="text-center float-sm-start"><%= day %></h4>
+        </div>
+        <div class="mb-3 col-sm-6 ms-auto">
+            <div class="dropdown text-center float-sm-end">
+                <button class="btn dropdown-toggle daychoicebtn" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Choose day
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="/regular-schedule?day=Monday">Monday</a></li>
+                    <li><a class="dropdown-item" href="/regular-schedule?day=Tuesday">Tuesday</a></li>
+                    <li><a class="dropdown-item" href="/regular-schedule?day=Wednesday">Wednesday</a></li>
+                    <li><a class="dropdown-item" href="/regular-schedule?day=Thursday">Thursday</a></li>
+                    <li><a class="dropdown-item" href="/regular-schedule?day=Friday">Friday</a></li>
+                    <li><a class="dropdown-item" href="/regular-schedule?day=Saturday">Saturday</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Lab | Period</th>
+                    <th scope="col">1</th>
+                    <th scope="col">2</th>
+                    <th scope="col">3</th>
+                    <th scope="col">4</th>
+                    <th scope="col">5</th>
+                    <th scope="col">6</th>
+                    <th scope="col">7</th>
+                    <th scope="col">8</th>
+                    <th scope="col">9</th>
+                    <th scope="col">10</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row" class="rhead">CSL1</th>
+                    <% table[0].forEach(entry=>{ %>
+                    <% if(entry == "free") { %>
+                        <td><p class="text-purple m-0"><%= entry %></p></td>
+                    <% } else if(entry == "blocked") { %>
+                        <td><p class="text-danger m-0"><%= entry %></p></td>
+                    <% } else { %>
+                        <td><%= entry %></td>
+                    <% } }) %>
+                </tr>
+                <tr>
+                    <th scope="row" class="rhead">CSL2</th>
+                    <% table[1].forEach(entry=>{ %>
+                    <% if(entry == "free") { %>
+                        <td><p class="text-purple m-0"><%= entry %></p></td>
+                    <% } else if(entry == "blocked") { %>
+                        <td><p class="text-danger m-0"><%= entry %></p></td>
+                    <% } else { %>
+                        <td><%= entry %></td>
+                    <% } }) %>
+                </tr>
+                <tr>
+                    <th scope="row" class="rhead">CSL3</th>
+                    <% table[2].forEach(entry=>{ %>
+                    <% if(entry == "free") { %>
+                        <td><p class="text-purple m-0"><%= entry %></p></td>
+                    <% } else if(entry == "blocked") { %>
+                        <td><p class="text-danger m-0"><%= entry %></p></td>
+                    <% } else { %>
+                        <td><%= entry %></td>
+                    <% } }) %>
+                </tr>
+                <tr>
+                    <th scope="row" class="rhead">DSL</th>
+                    <% table[3].forEach(entry=>{ %>
+                    <% if(entry == "free") { %>
+                        <td><p class="text-purple m-0"><%= entry %></p></td>
+                    <% } else if(entry == "blocked") { %>
+                        <td><p class="text-danger m-0"><%= entry %></p></td>
+                    <% } else { %>
+                        <td><%= entry %></td>
+                    <% } }) %>
+                </tr>
+                <tr>
+                    <th scope="row" class="rhead">NSL</th>
+                    <% table[4].forEach(entry=>{ %>
+                    <% if(entry == "free") { %>
+                        <td><p class="text-purple m-0"><%= entry %></p></td>
+                    <% } else if(entry == "blocked") { %>
+                        <td><p class="text-danger m-0"><%= entry %></p></td>
+                    <% } else { %>
+                        <td><%= entry %></td>
+                    <% } }) %>
+                </tr>
+                <tr>
+                    <th scope="row" class="rhead">IIL</th>
+                    <% table[5].forEach(entry=>{ %>
+                    <% if(entry == "free") { %>
+                        <td><p class="text-purple m-0"><%= entry %></p></td>
+                    <% } else if(entry == "blocked") { %>
+                        <td><p class="text-danger m-0"><%= entry %></p></td>
+                    <% } else { %>
+                        <td><%= entry %></td>
+                    <% } }) %>
+                </tr>
+                <tr>
+                    <th scope="row" class="rhead">OCL</th>
+                    <% table[6].forEach(entry=>{ %>
+                    <% if(entry == "free") { %>
+                        <td><p class="text-purple m-0"><%= entry %></p></td>
+                    <% } else if(entry == "blocked") { %>
+                        <td><p class="text-danger m-0"><%= entry %></p></td>
+                    <% } else { %>
+                        <td><%= entry %></td>
+                    <% } }) %>
+                </tr>
+                <tr>
+                    <th scope="row" class="rhead">SKAVA</th>
+                    <% table[7].forEach(entry=>{ %>
+                    <% if(entry == "free") { %>
+                        <td><p class="text-purple m-0"><%= entry %></p></td>
+                    <% } else if(entry == "blocked") { %>
+                        <td><p class="text-danger m-0"><%= entry %></p></td>
+                    <% } else { %>
+                        <td><%= entry %></td>
+                    <% } }) %>
+                </tr>
+                <tr>
+                    <th scope="row" class="rhead">SCL</th>
+                    <% table[8].forEach(entry=>{ %>
+                    <% if(entry == "free") { %>
+                        <td><p class="text-purple m-0"><%= entry %></p></td>
+                    <% } else if(entry == "blocked") { %>
+                        <td><p class="text-danger m-0"><%= entry %></p></td>
+                    <% } else { %>
+                        <td><%= entry %></td>
+                    <% } }) %>
+                </tr>
+                <tr>
+                    <th scope="row" class="rhead">CL</th>
+                    <% table[9].forEach(entry=>{ %>
+                    <% if(entry == "free") { %>
+                        <td><p class="text-purple m-0"><%= entry %></p></td>
+                    <% } else if(entry == "blocked") { %>
+                        <td><p class="text-danger m-0"><%= entry %></p></td>
+                    <% } else { %>
+                        <td><%= entry %></td>
+                    <% } }) %>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<% } else { %>
+
+    <div class="col-sm-5 col-md-5 col-lg-5 mt-5 mx-auto d-flex align-items-center row">
+        <img src="images/nothing.png" class="w-75 w-md-50 mx-auto" alt="">
+        <p class="fw-bold text-center" style="color: #5853BC;">Schedule not yet added for current semester!</p>
+    </div>
+
+<% } %>
+
+<%-include('partials/footer')%>

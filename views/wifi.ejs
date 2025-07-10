@@ -1,0 +1,68 @@
+<%-include ('partials/header_student') %>
+
+<div class="main col-10 col-sm-8 col-lg-7 mx-auto rounded">
+    
+    <% if(locals.success) { %>
+        <div class="alert alert-success alert-dismissible fade show position-absolute top-10 start-50 translate-middle" role="alert" id="alert">
+            <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+
+    <h4 class="my-5">WiFi Entry</h4>
+
+    <div class="wifi">
+
+        <form action="/wifi" method="post">
+
+            <% if(locals.mac) { %>
+            <div class="mb-3 row">
+                <label for="" class="col-sm-4">Existing MAC</label>
+                <div class="col-sm-8"><%= mac %> </div>
+            </div>
+            <% } %>
+            <div>
+                <div class="mb-3 row">
+                <label for="model" class="col-sm-4 col-form-label">Laptop Model</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="model" name="model" required>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="mac" class="col-sm-4 col-form-label">MAC Address (: delimiter) </label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="mac" name="mac" required oninput="check()">
+                    <p class="text-danger mt-2">Provide Laptop MAC address only</p>
+                    <div class="my-2 p-2 fs-6 alert alert-danger d-none" id="invalidMAC"><span>Invalid MAC Address or delimiter</span></div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-block request" type="submit" name="submit" value="Request" id="submitBtn">
+            </div>
+
+        </form>
+    </div>
+
+<script>
+    $("#alert").delay(2500).fadeOut(500);
+
+    function check() {
+        const mac = /^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$/;
+        invalidMAC = document.getElementById('invalidMAC'),
+        submitBtn = document.getElementById('submitBtn');
+
+        if(!mac.test(document.getElementById('mac').value)) {
+            invalidMAC.classList.remove('d-none');
+            submitBtn.disabled = true;
+        }
+        else {
+            invalidMAC.classList.add('d-none');
+            submitBtn.disabled = false;
+        }
+    }
+
+</script>
+
+<%-include ('partials/footer'); %>

@@ -1,0 +1,96 @@
+<% if(role === "admin") { %>
+<%-include('partials/header_admin'); %>
+<% } else { %>
+<%-include('partials/header_lab'); %>  
+<% } %>
+
+    <div class="main rounded col col-sm-11 col-md-11 col-lg-11 col-xl-11 mx-auto schedule">
+        <h4 class="my-4">All Bookings</h4>
+        <div class="booking-details col-6 mx-auto">
+            <form action="/booking-details" method="post">
+
+                <div class="mb-3 row">
+                    <label for="sdate" class="col-sm-3 col-form-label">Start Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" id="sdate" name="sdate" required onchange="check()">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="edate" class="col-sm-3 col-form-label">End Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" id="edate" name="edate" required onchange="check()">
+                        <div id="invalid" class="my-2 p-2 fs-6 alert alert-danger d-none"><span>Oops! check the dates</span></div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <input class="btn btn-block request" type="submit" name="Submit" value="View" id="submitBtn">
+                </div>
+            </form>
+        </div>
+
+        <% if(locals.table) { %>
+            <% if(table.length !=0) { %>
+            <div class="table-responsive mx-auto mt-5">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">S.No</th>
+                            <th scope="col">Staff ID</th>
+                            <th scope="col">Class</th>
+                            <th scope="col">Lab Name</th>
+                            
+                            <th scope="col">Date</th>
+                            <th scope="col">From Period</th>
+                            <th scope="col">To Period</th>
+                            <th scope="col" class="text-start w-25">Purpose</th>
+                            <th scope="col">Booked on</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i=0; i<table.length; i++) { %>
+                            <tr>
+                                <td><%= i+1 %></td>
+                                <td><%= table[i].staffId %></td>
+                                <td><%= table[i]._year + " yr " + table[i].programme %></td>
+                                <td><%= table[i].lab %></td>
+                                <td><%= table[i].bookingDate.toLocaleDateString("en-IN") %></td>
+                                <td><%= table[i].fromperiod %></td>
+                                <td><%= table[i].toperiod %></td>
+                                <td class="text-start"><%= table[i].purpose %></td>
+                                <td><%= table[i].entryDate.toLocaleDateString("en-IN") %></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <% } else { %>
+                <div class="text-center">
+                    <img src="/images/nothing.png" class="nothingFull" alt="nothing">
+                    <div><p class="fs-5 text-purple fw-bold">No bookings found!</p></div>
+                </div>
+            <% } %>
+        <% } %>
+
+    </div>
+
+<script>
+
+    function check() {
+        const start = document.getElementById('sdate').value, end = document.getElementById('edate').value,
+            submitBtn = document.getElementById('submitBtn'), invalid = document.getElementById('invalid');
+
+        if(start && end && start > end) {
+            invalid.classList.remove('d-none');
+            submitBtn.disabled = true;
+        }
+        else {
+            invalid.classList.add('d-none');
+            submitBtn.disabled = false;
+        }
+    }
+
+</script>
+
+<%-include ('partials/footer'); %>

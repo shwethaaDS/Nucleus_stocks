@@ -1,0 +1,108 @@
+<%-include('partials/header_lab')%>
+
+<% if(requests.length!=0) { %>
+<div class="schedule rounded p-3 mx-lg-1">
+
+    <div class="row">
+        <div class="p-3 mb-5">
+            
+            <form class="col-sm-7 col-md-5 col-lg-4 mx-auto" action="/filter-login-requests" method="post">
+                <div class="d-flex m-3 ">
+                    <label for="filter_status" class="col-form-label me-2">View</label>
+                    <select name="filter_status" class="form-select">
+                        <option <%= filter=="All" && "selected" %> >All</option>
+                        <option <%= filter=="Pending" && "selected" %> >Pending</option>
+                        <option <%= filter=="Confirmed" && "selected" %> >Confirmed</option>
+                        <option <%= filter=="Rejected" && "selected" %> >Rejected</option>
+                    </select>
+                </div>
+                <div class="d-flex m-3">
+                    <label for="_date" class="col-form-label me-2" >Date</label>
+                    <input type="date" class="form-control" name="_date" value="<%= date%>">
+                </div>
+                <div class="text-center">
+                    <input class="btn btn-sm btn-block request" type="submit" name="Submit" value="Filter" id="submitBtn">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table text-center">
+            
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Staff ID</th>
+                    <th scope="col">Staff name</th>
+                    <th scope="col">Staff email</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Date needed</th>
+                    <th scope="col">From period</th>
+                    <th scope="col">To period</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Tools</th>
+                    <th scope="col">No. of Logins</th>
+                    <th scope="col" colspan="2">Status</th> 
+                    <th scope="col">Series</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let i=0; i<requests.length; i++) { %>
+                    <tr>
+                    <td><%= i+1 %></td>
+                    <td><%= requests[i].staffid %></td>
+                    <td><%= requests[i].staffname %></td>
+                    <td><%= requests[i].staffemail %></td>
+                    <td><%= requests[i].class %></td>
+                    <td><%= requests[i].dateneeded.toLocaleDateString("en-IN") %></td>
+                    <td><%= requests[i].fromperiod %></td>
+                    <td><%= requests[i].toperiod %></td>
+                    <td><%= requests[i]._type %></td>
+                    <td><%= requests[i].tools %></td>
+                    <td><%= requests[i].nooflogins %></td>
+
+                    <% if(requests[i]._status == "Pending") {%>
+                        <td class="text-end">Pending</td>
+                        <td><span class="badge bg-purple p-1 border-purple mx-2 rounded-circle"><span class="visually-hidden">Blue</span></span></td>
+                    <% } %>
+                    <% if(requests[i]._status == "Rejected") {%>
+                        <td class="text-end">Rejected</td>
+                        <td><span class="badge bg-danger p-1 border border-danger mx-2 rounded-circle"><span class="visually-hidden">red</span></span></td>
+                    <% } %>
+                    <% if(requests[i]._status == "Confirmed") {%>
+                        <td class="text-end">Confirmed</td>
+                        <td><span class="badge bg-success p-1 border border-success mx-2 rounded-circle"><span class="visually-hidden">green</span></span></td>
+                    <% } %>
+                    
+                    <form action="/update-login-info" method="post" onSubmit = "return confirm('Are you sure? Changes cannot be undone!')">
+                        <input type="text" name="id" value="<%=requests[i].requestId %>" hidden>
+                        <td><input type="text" name="series" value="<%= requests[i].series %>" <%= requests[i]._status=="Rejected" && "Disabled" %>></td>
+                        <td>
+                            <div class="text-center d-flex justify-content-between align-items-center">
+                                <% if (requests[i]._status != "Rejected") { %>
+                                    <input class="btn rounded-pill btn-block update w-100" type="submit" name="update" value="<%= requests[i]._status=="Pending"? "ALLOT": "UPDATE" %>" id="submitBtn">
+                                    <button type="submit" class="btn btn-block  reject p-0 m-0 d-flex " name="reject"><i class='bx bxs-x-circle bx-sm' style='color:#e41b1b'></i></button>
+                                <% } %>
+                            </div>
+                        </td>
+                    </form>
+                    
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<% } else { %>
+
+    <div class="col-sm-5 col-md-5 col-lg-5 mt-5 mx-auto d-flex align-items-center row">
+        <img src="images/nothing.png" class="w-75 w-md-50 mx-auto" alt="">
+        <p class="fw-bold text-center" style="color: #5853BC;">No exam login requests!</p>
+    </div>
+
+<% } %>
+
+<%-include('partials/footer')%>
