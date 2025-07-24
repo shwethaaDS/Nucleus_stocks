@@ -1,1 +1,1 @@
-worked on the stock management part of my college website . Implemented features like stock tracking, role based inventory, control and report generation to improve departmental operaations 
+I contributed to the OpenSourcely project by developing the Stock Management module. My work involved implementing stock tracking, role-based inventory control, and report generation features to enhance and streamline departmental operations.
