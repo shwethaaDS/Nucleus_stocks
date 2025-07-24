@@ -1,1 +1,1 @@
-I contributed to the OpenSourcely project by developing the Stock Management module. My work involved implementing stock tracking, role-based inventory control, and report generation features to enhance and streamline departmental operations.
+contributed to the OpenSourcely project by developing the Stock Management module. My work involved implementing stock tracking, role-based inventory control, and report generation features to enhance and streamline departmental operations.
